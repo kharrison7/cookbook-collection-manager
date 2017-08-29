@@ -31,14 +31,13 @@ app.use(bodyParser.text());
 //'extended: true' parses nested objects
 //'expressValidator' must come after 'bodyParser', since data must be parsed first!
 app.use(expressValidator());
-
 // This consolelogs a buch of actions
 // app.use(logger('dev'));
 app.use(cookieParser());
 // Sets the view engine and router.
 app.engine('mustache', mustacheExpress());
 // use views folder to pick up views.
-app.set('views', ['./views','./views/admin']);
+app.set('views', './views');
 // sets mustache as the view engine.
 app.set('view engine', 'mustache');
 // use the correct routes when callled.
@@ -46,8 +45,7 @@ app.set('view engine', 'mustache');
 // app.use('/gameplay', gameRouter);
 // fetch static content from public folder.
 app.use(express.static(__dirname + '/public'));
-
-
+app.use('/static', express.static('static'));
 // This sets up the session.
 app.use(session({
   secret: 'variant',
@@ -59,10 +57,15 @@ app.use(session({
 
 
 
+const Recipe = require("./models/recipe");
+const Cookbook = require("./models/cookbook");
+
+const DUPLICATE_RECORD_ERROR = 11000;
+
 // mongodb code:
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
-const mongoURL = 'mongodb://localhost:27017/newdb';
+const mongoURL = 'mongodb://localhost:27017/recipes';
 
 let assert = require('assert');
 
@@ -72,6 +75,97 @@ MongoClient.connect(mongoURL, function(err, db) {
   console.log("Connected successfully to mongodb server");
   db.close();
 });
+
+//This connects to mongoose and bluebird.
+const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
+// Replace "test" with your database name.
+// mongoose.connect('mongodb://localhost:27017/test');
+mongoose.connect(mongoURL, {useMongoClient: true});
+app.set('layout', 'layout');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// This code is from the github:
+//github.com/tiycnd/mongoose-live-code-recipes/blob/master/app.js
+
+app.get('/new/', function (req, res) {
+  res.render('new_recipe');
+});
+
+app.post('/new/', function (req, res) {
+  Recipe.create(req.body)
+  .then(function (recipe) {
+    res.redirect('/');
+  })
+  .catch(function (error) {
+    let errorMsg;
+    if (error.code === DUPLICATE_RECORD_ERROR) {
+      // make message about duplicate
+      errorMsg = `The recipe name "${req.body.name}" has already been used.`
+    } else {
+      errorMsg = "You have encountered an unknown error."
+    }
+    res.render('new_recipe', {errorMsg: errorMsg});
+  })
+});
+
+app.get('/:id/', function (req, res) {
+  Recipe.findOne({_id: req.params.id}).then(function (recipe) {
+    res.render("recipe", {recipe: recipe});
+  })
+})
+
+app.get('/:id/new_ingredient/', function (req, res) {
+  Recipe.findOne({_id: req.params.id}).then(function (recipe) {
+    res.render("new_ingredient", {recipe: recipe});
+  })
+})
+
+app.post('/:id/new_ingredient/', function (req, res) {
+  Recipe.findOne({_id: req.params.id}).then(function (recipe) {
+    recipe.ingredients.push(req.body);
+    recipe.save().then(function () {
+        res.render("new_ingredient", {recipe: recipe});
+    })
+  })
+})
+
+app.get('/:id/new_step/', function (req, res) {
+  Recipe.findOne({_id: req.params.id}).then(function (recipe) {
+    res.render("new_step", {recipe: recipe});
+  })
+})
+
+app.post('/:id/new_step/', function (req, res) {
+  Recipe.findOne({_id: req.params.id}).then(function (recipe) {
+    recipe.steps.push(req.body.step);
+    recipe.save().then(function () {
+      res.render("new_step", {recipe: recipe});
+    })
+  })
+})
+
+
+app.get('/', function (req, res) {
+  Recipe.find().then(function (recipes) {
+    res.render('index', {recipes: recipes});
+  })
+})
+
+
+
 
 
 
