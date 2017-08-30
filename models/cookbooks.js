@@ -6,8 +6,8 @@ let cookBookSchema = new Schema({
  author: String,
  price: Number,
  triedRecipe: [{
-   tasty: Boolean,
-   recipeTitle: {type: String, required: true},
+   recipeTitle: String,
+   tasty: {type: Boolean, default: true},
    pageNumber: Number
  }],
 });
