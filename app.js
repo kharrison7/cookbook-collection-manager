@@ -10,13 +10,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const http = require('http');
 const expressValidator = require('express-validator');
-// const adminRouter = require('./public/routes/admin');
-// const gameRouter = require('./public/routes/gameplay');
-// const validation = require('./test/validation/checkVal.js');
-// const data = require('./items.js');
-// const userJS = require('./user.js');
-// const file = './fill.json';
-// const fileTransfer = require('./fill.json');
 // Creates and includes a file system (fs) module
 const fs = require('fs');
 // Create authorization session
@@ -65,7 +58,7 @@ const DUPLICATE_RECORD_ERROR = 11000;
 // mongodb code:
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
-const mongoURL = 'mongodb://localhost:27017/recipes';
+const mongoURL = 'mongodb://localhost:27017/cookbook';
 
 let assert = require('assert');
 
@@ -100,72 +93,133 @@ app.set('layout', 'layout');
 // This code is from the github:
 //github.com/tiycnd/mongoose-live-code-recipes/blob/master/app.js
 
-app.get('/new/', function (req, res) {
-  res.render('new_recipe');
+// app.get('/new/', function (req, res) {
+//   res.render('new_recipe');
+// });
+//
+// app.post('/new/', function (req, res) {
+//   Recipe.create(req.body)
+//   .then(function (recipe) {
+//     res.redirect('/');
+//   })
+//   .catch(function (error) {
+//     let errorMsg;
+//     if (error.code === DUPLICATE_RECORD_ERROR) {
+//       // make message about duplicate
+//       errorMsg = `The recipe name "${req.body.name}" has already been used.`
+//     } else {
+//       errorMsg = "You have encountered an unknown error."
+//     }
+//     res.render('new_recipe', {errorMsg: errorMsg});
+//   })
+// });
+//
+// app.get('/:id/', function (req, res) {
+//   Recipe.findOne({_id: req.params.id}).then(function (recipe) {
+//     res.render("recipe", {recipe: recipe});
+//   })
+// })
+//
+// app.get('/:id/new_ingredient/', function (req, res) {
+//   Recipe.findOne({_id: req.params.id}).then(function (recipe) {
+//     res.render("new_ingredient", {recipe: recipe});
+//   })
+// })
+//
+// app.post('/:id/new_ingredient/', function (req, res) {
+//   Recipe.findOne({_id: req.params.id}).then(function (recipe) {
+//     recipe.ingredients.push(req.body);
+//     recipe.save().then(function () {
+//         res.render("new_ingredient", {recipe: recipe});
+//     })
+//   })
+// })
+//
+// app.get('/:id/new_step/', function (req, res) {
+//   Recipe.findOne({_id: req.params.id}).then(function (recipe) {
+//     res.render("new_step", {recipe: recipe});
+//   })
+// })
+//
+// app.post('/:id/new_step/', function (req, res) {
+//   Recipe.findOne({_id: req.params.id}).then(function (recipe) {
+//     recipe.steps.push(req.body.step);
+//     recipe.save().then(function () {
+//       res.render("new_step", {recipe: recipe});
+//     })
+//   })
+// })
+//
+// app.get('/', function (req, res) {
+//   Recipe.find().then(function (recipes) {
+//     res.render('index', {recipes: recipes});
+//   })
+// })
+// End of recipes code from class
+
+
+
+
+// Start of cookbook code.
+// let cookbooks = Cookbook;
+
+
+// sets up page routes
+app.get('/add', function(req, res){
+ console.log("Get Add");
+ res.render('add.mustache');
 });
-
-app.post('/new/', function (req, res) {
-  Recipe.create(req.body)
-  .then(function (recipe) {
-    res.redirect('/');
-  })
-  .catch(function (error) {
-    let errorMsg;
-    if (error.code === DUPLICATE_RECORD_ERROR) {
-      // make message about duplicate
-      errorMsg = `The recipe name "${req.body.name}" has already been used.`
-    } else {
-      errorMsg = "You have encountered an unknown error."
-    }
-    res.render('new_recipe', {errorMsg: errorMsg});
-  })
-});
-
-app.get('/:id/', function (req, res) {
-  Recipe.findOne({_id: req.params.id}).then(function (recipe) {
-    res.render("recipe", {recipe: recipe});
-  })
-})
-
-app.get('/:id/new_ingredient/', function (req, res) {
-  Recipe.findOne({_id: req.params.id}).then(function (recipe) {
-    res.render("new_ingredient", {recipe: recipe});
-  })
-})
-
-app.post('/:id/new_ingredient/', function (req, res) {
-  Recipe.findOne({_id: req.params.id}).then(function (recipe) {
-    recipe.ingredients.push(req.body);
-    recipe.save().then(function () {
-        res.render("new_ingredient", {recipe: recipe});
-    })
-  })
-})
-
-app.get('/:id/new_step/', function (req, res) {
-  Recipe.findOne({_id: req.params.id}).then(function (recipe) {
-    res.render("new_step", {recipe: recipe});
-  })
-})
-
-app.post('/:id/new_step/', function (req, res) {
-  Recipe.findOne({_id: req.params.id}).then(function (recipe) {
-    recipe.steps.push(req.body.step);
-    recipe.save().then(function () {
-      res.render("new_step", {recipe: recipe});
-    })
-  })
-})
-
-
+//
+// app.post('/add', function(req, res){
+//   console.log("Get Add2");
+//  Cookbooks.create(req.body).then(function (cookbooks){
+//   res.redirect('/');
+//  });
+// });
+//
 app.get('/', function (req, res) {
-  Recipe.find().then(function (recipes) {
-    res.render('index', {recipes: recipes});
-  })
+  console.log("A");
+  res.redirect('/index');
+})
+
+app.get('/index', function(req, res){
+  console.log("B");
+  Cookbook.find().then(function (cookbooks) {
+  res.render('layout', {cookbooks});
+})
 })
 
 
 
+// app.get('/new/', function (req, res) {
+//   res.render('new_cookbook');
+// });
+//
+// app.get('/new_cookbook', function (req, res) {
+//   Cookbook.find().then(function (cookbooks) {
+//     res.render('new_cookbook', {cookbooks});
+//   })
+// })
+//
+// app.post('/new_cookbook', function (req, res) {
+//   Cookbook.create(req.body)
+//   .then(function (cookbook) {
+//     console.log("Redirect line 184 approx");
+//     res.redirect('/');
+//   })
+//   .catch(function (error) {
+//     let errorMsg;
+//     if (error.code === DUPLICATE_RECORD_ERROR) {
+//       // make message about duplicate
+//       errorMsg = `The cookbook name "${req.body.name}" has already been used.`
+//     } else {
+//       errorMsg = "You have encountered an unknown error."
+//     }
+//     res.render('new_cookbook', {errorMsg: errorMsg});
+//   })
+// });
+//
+//
 
 
 

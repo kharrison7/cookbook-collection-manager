@@ -7,8 +7,23 @@
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+  <h1>Cook Books:</h1>
   <div class="container">
-      {{{yield}}}
+		<!-- for recipes put yield in triple }s. -->
+
+		<p>
+	     <a href="/add" class="button">Add A Cook Book</a>
+	   </p>
+
+
+		{{#cookbooks}}
+        {{title}}
+				{{author}}
+				{{price}}
+    {{/cookbooks}}
+
+
+
   </div>
 </body>
 </html>
