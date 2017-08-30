@@ -15,11 +15,13 @@
 		    <div class="book_box">
 					<p><a href="/{{_id}}/new_recipe">{{title}}</a></p>
 					<p>{{author}}</p>
-					<p>{{price}}</p>
+					<p>${{price}}</p>
 					{{#triedRecipe}}
-					<p>{{recipeTitle}}</p>
-					<p>{{pageNumber}}</p>
-					<p>{{tasty}}</p>
+					<div class="recipe_box">
+					<p>Recipe: {{recipeTitle}}</p>
+					<p>Page Number: {{pageNumber}}</p>
+					<p>Delicious: {{tasty}}</p>
+				  </div>
 					{{/triedRecipe}}
 					<p><a href="/{{_id}}/edit">Edit Cook Book</a></p>
 				</div>

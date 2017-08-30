@@ -73,5 +73,23 @@ app.post('/:id/new_recipe', function(req, res){
 });
 
 
+app.get('/:id/edit', function(req, res){
+  console.log("h");
+  Cookbooks.findOne({_id: req.params.id}).then(function (cookbooks){
+  res.render('edit', {cookbooks: cookbooks});
+ });
+});
+
+app.post('/:id/edit', function(req, res){
+  console.log("i");
+  Cookbooks.findOne({_id: req.params.id}).then(function (cookbooks){
+    cookbooks.triedRecipe.push(req.body);
+    cookbooks.save().then(function () {
+     res.redirect('/');
+   });
+  });
+});
+
+
 
 app.listen(port);
