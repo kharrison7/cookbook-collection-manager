@@ -11,11 +11,13 @@
   <div class="container">
 		<p><a href="/add" class="button">Add A Cook Book</a></p>
 		<p><a href="/remove" class="button">Remove Cook Book</a></p>
+		<hr />
 		{{#cookbooks}}
 		    <div class="book_box">
 					<p><a href="/{{_id}}/new_recipe">{{title}}</a></p>
 					<p>{{author}}</p>
 					<p>${{price}}</p>
+					<p><a href="/{{_id}}/edit">Edit Cook Book</a></p>
 					{{#triedRecipe}}
 					<div class="recipe_box">
 						<ul>
@@ -25,8 +27,9 @@
 						</ul>
 				  </div>
 					{{/triedRecipe}}
-					<p><a href="/{{_id}}/edit">Edit Cook Book</a></p>
 				</div>
+				<hr />
+				<br />
     {{/cookbooks}}
 
   </div>
