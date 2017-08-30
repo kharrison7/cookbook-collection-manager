@@ -53,15 +53,12 @@ app.post('/remove', function(req, res){
   });
   res.redirect('/');
 });
-
-
 app.get('/:id/new_recipe', function(req, res){
   console.log("f");
   Cookbooks.findOne({_id: req.params.id}).then(function (cookbooks){
   res.render('new_recipe', {cookbooks: cookbooks});
  });
 });
-
 app.post('/:id/new_recipe', function(req, res){
   console.log("g");
   Cookbooks.findOne({_id: req.params.id}).then(function (cookbooks){
@@ -71,8 +68,6 @@ app.post('/:id/new_recipe', function(req, res){
    });
   });
 });
-
-
 app.get('/:id/edit', function(req, res){
   console.log("h");
   Cookbooks.findOne({_id: req.params.id}).then(function (cookbooks){
@@ -82,14 +77,16 @@ app.get('/:id/edit', function(req, res){
 
 app.post('/:id/edit', function(req, res){
   console.log("i");
-  Cookbooks.findOne({_id: req.params.id}).then(function (cookbooks){
-    cookbooks.triedRecipe.push(req.body);
-    cookbooks.save().then(function () {
-     res.redirect('/');
-   });
-  });
+  // Need to make the changes occur.
+  Cookbooks.findOneAndUpdate({_id: req.params.id}, req.body).then(function (cookbooks) {
+    console.log(req.body);
+      res.redirect('/');
 });
-
-
-
+  // const cookbookUnit = req.cookbooks;
+  //   cookbookUnit.name = req.body.title;
+  //   cookbookUnit.source = req.body.author;
+  //   cookbookUnit.prepTime = req.body.price;
+  //   cookbookUnit.save();
+  //   res.redirect('/');
+});
 app.listen(port);

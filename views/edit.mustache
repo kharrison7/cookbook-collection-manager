@@ -9,6 +9,11 @@
  <body>
    <h1>Edit a Cook Book:</h1>
    {{#cookbooks}}
+   <p>Current Cook Book Information</p>
+   <p>{{title}}</p>
+   <p>{{author}}</p>
+   <p>${{price}}</p>
+   <br />
    <form action="/{{_id}}/edit" method="POST">
      <label for="title">Title:</label>
      <input type="text" id="title" name="title" placeholder="Title" required />
