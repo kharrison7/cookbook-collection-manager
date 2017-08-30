@@ -53,4 +53,15 @@ app.post('/remove', function(req, res){
   });
   res.redirect('/');
 });
+
+
+app.get('/new_recipe', function(req, res){
+  console.log("f");
+ Cookbooks.find().then(function (cookbooks){
+  res.render('new_recipe', {cookbooks: cookbooks});
+ });
+});
+
+
+
 app.listen(port);
