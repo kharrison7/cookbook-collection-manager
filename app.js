@@ -91,10 +91,12 @@ app.post('/:id/edit', getCookBook, function(req, res){
      cookbook.price = req.body.price;
 
     // This collects information for the nested triedRecipe key.
-    const triedRecipe = (req.body.triedRecipe || []).filter(function(triedRecipe) {
-        return (triedRecipe.recipeTitle || triedRecipe.tasty || triedRecipe.pageNumber);
-    });
-    cookbook.triedRecipe = triedRecipe;
+    if(req.body.triedRecipe != null && req.body.triedRecipe != ""){
+      const triedRecipe = (req.body.triedRecipe || []).filter(function(triedRecipe) {
+          return (triedRecipe.recipeTitle || triedRecipe.tasty || triedRecipe.pageNumber);
+      });
+      cookbook.triedRecipe = triedRecipe;
+    }
 
      const error = cookbook.validateSync();
      if (!error) {
@@ -112,14 +114,31 @@ app.post('/:id/edit', getCookBook, function(req, res){
 });
 
 
+
+
+const addIndexToTriedRecipe = function(cookbooks) {
+    for (let idx = 0; idx < cookbooks.triedRecipe.length; idx++) {
+        cookbooks.triedRecipe[idx].index = idx;
+    }
+}
 app.get('/:id/edit_recipe', function(req, res){
   console.log("j");
   Cookbooks.findOne({_id: req.params.id}).then(function (cookbooks){
   res.render('edit_recipe', {cookbooks: cookbooks});
  });
 });
-app.post('/:id/edit_recipe', function(req, res){
+app.post('/:id/edit_recipe', getCookBook, function(req, res){
   console.log("k");
+  // Need to make the changes occur.
+  console.log(req.cookbooks);
+  const cookbooks = req.cookbooks;
+  console.log(JSON.stringify(cookbooks.getFormData()));
+   addIndexToTriedRecipe(cookbooks);
+   res.render("edit_recipe", {
+       cookbooks: cookbooks,
+       fields: cookbooks.getFormData(),
+       nextIngIndex: cookbooks.triedRecipe.length
+   });
   // Need to make the changes occur.
   Cookbooks.findOneAndUpdate({_id: req.params.id}, req.body).then(function (cookbooks) {
     console.log(req.body);
