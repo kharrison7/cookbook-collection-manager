@@ -9,7 +9,7 @@
 <body>
   <h1>Cook Books:</h1>
   <div class="container">
-		<p><a href="/add" class="button">Add A Cook Book</a></p>
+		<p><a href="/add" class="button">Add Cook Book</a></p>
 		<p><a href="/remove" class="button">Remove Cook Book</a></p>
 		<hr />
 		{{#cookbooks}}
@@ -17,11 +17,11 @@
 					<p><a href="/{{_id}}/new_recipe">{{title}}</a></p>
 					<p>{{author}}</p>
 					<p>${{price}}</p>
-					<p><a href="/{{_id}}/edit">Edit Cook Book</a></p>
+					<p><a href="/{{title}}/edit">Edit Cook Book</a></p>
 					{{#triedRecipe}}
 					<div class="recipe_box">
 						<ul>
-							<p>Recipe: {{recipeTitle}}</p>
+							<p><a href="/{{_id}}/edit_recipe">Recipe: {{recipeTitle}}</a></p>
 							<p>Page Number: {{pageNumber}}</p>
 							<p>Delicious: {{tasty}}</p>
 						</ul>
@@ -31,7 +31,9 @@
 				<hr />
 				<br />
     {{/cookbooks}}
-
+		{{^cookbooks}}
+      <h2>No Cook Books Yet</h2>
+    {{/cookbooks}}
   </div>
 </body>
 </html>
