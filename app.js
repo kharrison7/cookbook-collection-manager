@@ -55,11 +55,21 @@ app.post('/remove', function(req, res){
 });
 
 
-app.get('/new_recipe', function(req, res){
+app.get('/:id/new_recipe', function(req, res){
   console.log("f");
- Cookbooks.find().then(function (cookbooks){
+  Cookbooks.findOne({_id: req.params.id}).then(function (cookbooks){
   res.render('new_recipe', {cookbooks: cookbooks});
  });
+});
+
+app.post('/:id/new_recipe', function(req, res){
+  console.log("g");
+  Cookbooks.findOne({_id: req.params.id}).then(function (cookbooks){
+    cookbooks.triedRecipe.push(req.body);
+    cookbooks.save().then(function () {
+     res.redirect('/');
+   });
+  });
 });
 
 

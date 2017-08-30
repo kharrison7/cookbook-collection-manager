@@ -8,7 +8,8 @@
    </head>
  <body>
    <h1>Add a Recipe:</h1>
-   <form action="/add_recipe" method="POST">
+   {{#cookbooks}}
+   <form action="/{{_id}}/new_recipe" method="POST">
      <label for="recipeTitle">Title:</label>
      <input type="text" id="recipeTitle" name="recipeTitle" placeholder="Recipe Title" required />
      <br />
@@ -21,6 +22,7 @@
      <br />
      <button type="submit">Add Recipe</button>
    </form>
+   {{/cookbooks}}
    <br />
    <p><a href="/" class="button">Return to Cook Book Collection</a></p>
  </body>

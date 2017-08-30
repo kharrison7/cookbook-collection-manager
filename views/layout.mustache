@@ -10,13 +10,18 @@
   <h1>Cook Books:</h1>
   <div class="container">
 		<p><a href="/add" class="button">Add A Cook Book</a></p>
-		<p><a href="/remove">Remove Cook Book</a></p>
+		<p><a href="/remove" class="button">Remove Cook Book</a></p>
 		{{#cookbooks}}
 		    <div class="book_box">
-					<p><a href="/new_recipe">{{title}}</a></p>
+					<p><a href="/{{_id}}/new_recipe">{{title}}</a></p>
 					<p>{{author}}</p>
 					<p>{{price}}</p>
-					<p><a href="/edit">Edit Cook Book</a></p>
+					{{#triedRecipe}}
+					<p>{{recipeTitle}}</p>
+					<p>{{pageNumber}}</p>
+					<p>{{tasty}}</p>
+					{{/triedRecipe}}
+					<p><a href="/{{_id}}/edit">Edit Cook Book</a></p>
 				</div>
     {{/cookbooks}}
 
