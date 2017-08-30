@@ -20,11 +20,14 @@
      <label for="author">Author:</label>
      <input type="text" id="author" name="author" placeholder="Author" required />
      <label for="price">Price:</label>
-     <input type="text" id="price" name="price" placeholder="Price" />
+     <input type="text" id="price" name="price" placeholder="Price" required/>
      <br />
      <button type="submit">Edit Cook Book</button>
    </form>
    {{/cookbooks}}
+   {{#errors}}
+   <h6>Error: {{errors}}</h6>
+   {{/errors}}
    <br />
    <p><a href="/" class="button">Return to Cook Book Collection</a></p>
  </body>

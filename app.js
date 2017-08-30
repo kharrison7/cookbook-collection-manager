@@ -89,8 +89,8 @@ app.post('/:id/edit', getCookBook, function(req, res){
      cookbook.title = req.body.title;
      cookbook.author = req.body.author;
      cookbook.price = req.body.price;
-    //  cookbook.pageNumber = req.body.pageNumber;
-    //  cookbook.triedRecipe.recipeTitle = req.body.triedRecipe.recipeTitle;
+
+    // This collects information for the nested triedRecipe key.
     const triedRecipe = (req.body.triedRecipe || []).filter(function(triedRecipe) {
         return (triedRecipe.recipeTitle || triedRecipe.tasty || triedRecipe.pageNumber);
     });
@@ -110,9 +110,6 @@ app.post('/:id/edit', getCookBook, function(req, res){
 //       res.redirect('/');
 // });
 });
-
-
-
 
 
 app.get('/:id/edit_recipe', function(req, res){
