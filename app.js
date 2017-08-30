@@ -91,6 +91,11 @@ app.post('/:id/edit', getCookBook, function(req, res){
      cookbook.price = req.body.price;
     //  cookbook.pageNumber = req.body.pageNumber;
     //  cookbook.triedRecipe.recipeTitle = req.body.triedRecipe.recipeTitle;
+    const triedRecipe = (req.body.triedRecipe || []).filter(function(triedRecipe) {
+        return (triedRecipe.recipeTitle || triedRecipe.tasty || triedRecipe.pageNumber);
+    });
+    cookbook.triedRecipe = triedRecipe;
+
      const error = cookbook.validateSync();
      if (!error) {
        cookbook.save();
@@ -122,6 +127,10 @@ app.post('/:id/edit_recipe', function(req, res){
   Cookbooks.findOneAndUpdate({_id: req.params.id}, req.body).then(function (cookbooks) {
     console.log(req.body);
       res.redirect('/');
+    //   cookbooks.triedRecipe.push(req.body);
+    //   cookbooks.save().then(function () {
+    //    res.redirect('/');
+    //  });
 });
 });
 app.listen(port, function(){
