@@ -1,9 +1,11 @@
 <!doctype html>
 <html>
  <head>
-  <meta charset="utf-8" />
-  <title>Cook Book Collection Manager</title>
- </head>
+   <meta charset="utf-8">
+   <title>Cook Books Add</title>
+   <link rel="stylesheet" href="https://cdn.shoelace.style/1.0.0-beta20/shoelace.css">
+   <link rel="stylesheet" href="/static/style.css">
+   </head>
  <body>
    <h1>Add a Cook Book:</h1>
    <form action="/add" method="POST">
@@ -13,7 +15,10 @@
      <input type="text" id="author" name="author" placeholder="Author" required />
      <label for="price">Price:</label>
      <input type="text" id="price" name="price" placeholder="Price" />
+     <br />
      <button type="submit">Add To Cook Books Collection</button>
    </form>
+   <br />
+   <p><a href="/" class="button">Return to Cook Book Collection</a></p>
  </body>
 </html>

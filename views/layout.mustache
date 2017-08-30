@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title></title>
+	<title>Cook Books</title>
   <link rel="stylesheet" href="https://cdn.shoelace.style/1.0.0-beta20/shoelace.css">
   <link rel="stylesheet" href="/static/style.css">
 </head>
@@ -10,15 +10,16 @@
   <h1>Cook Books:</h1>
   <div class="container">
 		<p><a href="/add" class="button">Add A Cook Book</a></p>
+		<p><a href="/remove">Remove Cook Book</a></p>
 		{{#cookbooks}}
 		    <div class="book_box">
 					<p>{{title}}</p>
 					<p>{{author}}</p>
 					<p>{{price}}</p>
-					<p><a href="/remove">Remove Cook Book</a></p>
 					<p><a href="/edit">Edit Cook Book</a></p>
 				</div>
     {{/cookbooks}}
+
   </div>
 </body>
 </html>
